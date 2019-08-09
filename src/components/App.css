@@ -12,6 +12,6 @@
   font-family: 'Old Standard TT', serif;
 }
 .App-Body{
-  align-self: flex-start;
-  
+  display: flex;
+  flex-flow: column wrap;
 }

@@ -5,17 +5,25 @@ import './App.css';
 
 const questions = {
   "Pick one " : ["Movies","Series"],
-  "Preffered genre" : ["Action","Animation","Adventure","Comedy","Drama","Fantasy","Horror","Musical","Romance","Thriller"],
+  "Preffered genre " : ["Action","Animation","Adventure","Comedy","Drama","Fantasy","Horror","Musical","Romance","Thriller"],
   "Rating" : ["1-5","6-10"]
 }
 
 function mapQuestions(questions){
   return(
-    <Question quest="Pick One">
-    <RadioGroup/>
-  </Question>
+    Object.keys(questions).map((key,index)=>{
+      return(
+        <Question quest={key}>
+          {/* {questions[key].map((answers,index)=>{
+            return(answers)
+          })} */}
+          <RadioGroup choices={questions[key]}/>
+        </Question>
+      )
+    })
   );
 }
+
 
 function App() {
   return (
@@ -27,7 +35,7 @@ function App() {
             <span>Saving your time since 2019 <span role='img' aria-label='thumbs-up'>👍🏿</span></span>
         </div>
         <div className='App-Body'> 
-
+            {mapQuestions(questions)}
         </div>
       </div>
   );
