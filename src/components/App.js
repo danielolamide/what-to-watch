@@ -13,11 +13,11 @@ function mapQuestions(questions){
   return(
     Object.keys(questions).map((key,index)=>{
       return(
-        <Question quest={key}>
+        <Question key={index} quest={key}>
           {/* {questions[key].map((answers,index)=>{
             return(answers)
           })} */}
-          <RadioGroup choices={questions[key]}/>
+          <RadioGroup questionNo={index} choices={questions[key]}/>
         </Question>
       )
     })
