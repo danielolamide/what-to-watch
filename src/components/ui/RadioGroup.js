@@ -4,13 +4,10 @@ import './RadioGroup.css';
 
 
 class RadioGroup extends Component{
-    state = {
-        selectedValues : {}
-    };
-
-    radioClick= (e)=>{
-       
-       
+    radioClick= (e) =>{
+        const answer = e.currentTarget.value;
+        const question = e.currentTarget.name;
+        this.props.onSelectAnswer(question,answer)
     }
     
     render(){
@@ -22,7 +19,8 @@ class RadioGroup extends Component{
                     return(
                         <RadioButton key ={index} id={index}
                         name={this.props.questionNo} 
-                        answer={answer}/>
+                        answer={answer}
+                        changed={this.radioClick.bind(this)}/>
                     ) 
                 })
             }
