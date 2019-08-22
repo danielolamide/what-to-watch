@@ -1,10 +1,16 @@
 import React from 'react';
 import './SubmitButton.css'
 
-function SubmitButton(){
+function SubmitButton(props){
     return(
         <div>
-            <button className = 'SubmitButton'  type='button'>Query</button>
+            <button 
+                className = 'SubmitButton'  
+                type='button'
+                onClick={props.clicked}
+            >
+                Query
+            </button>
         </div>
     );
 }

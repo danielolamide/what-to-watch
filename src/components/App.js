@@ -2,18 +2,27 @@ import React, {Component} from 'react';
 import Question from './question/Question';
 import RadioGroup from './ui/RadioGroup';
 import SubmitButton from './ui/Button/SubmitButton';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
   state = {
-    selectedValues : {}
+    selectedValues : {},
+    genreID : {}
   }
 
   questions = {
     "Pick one " : ["Movies","Series"],
-    "Preffered genre " : ["Action","Animation","Adventure","Comedy","Drama","Fantasy","Horror","Musical","Romance","Thriller"],
+    "Preffered genre " : ["Action","Animation","Adventure","Comedy","Drama","Fantasy","Horror","Music","Romance","Thriller"],
     "Rating" : ["1-5","6-10"]
   }
+
+  BaseURL = null
+
+  componentDidMount(){
+    this.getGenreID();
+  }
+  
   
   mapQuestions = (questions)=>{
     return(
@@ -38,6 +47,30 @@ class App extends Component {
       
   }
 
+
+  getGenreID = ()=>{
+      axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API}`)
+      .then((response)=>{
+        response.data.genres.map((genre,index)=>{
+          return(
+              this.setState(prevState=>
+                ({genreID : {...prevState.genreID, [genre.id] : genre.name}})
+              )
+          )
+        })
+      })
+  }
+
+  setGenreID = (genres,selectedGenre)=>{
+      return Object.keys(genres).find(key => genres[key]===selectedGenre)
+  }
+
+  onQueryClick = ()=>{
+    console.log(this.setGenreID(this.state.genreID, this.state.selectedValues[1]))
+    console.log(this.state.genreID)
+  }
+
+
   render(){
     return (
         <div className='App'>
@@ -50,7 +83,7 @@ class App extends Component {
           <div className='App-Body'> 
               {this.mapQuestions(this.questions)}
               <div className='App-Search-Btn'>
-                <SubmitButton/>
+                <SubmitButton clicked={this.onQueryClick.bind(this)}/>
               </div>
           </div>
         </div>
