@@ -8,7 +8,7 @@ import './App.css';
 class App extends Component {
   state = {
     selectedValues : {},
-    genreID : {}
+    allGenreIDs : {}
   }
 
   questions = {
@@ -54,7 +54,7 @@ class App extends Component {
         response.data.genres.map((genre,index)=>{
           return(
               this.setState(prevState=>
-                ({genreID : {...prevState.genreID, [genre.id] : genre.name}})
+                ({allGenreIDs : {...prevState.allGenreIDs, [genre.id] : genre.name}})
               )
           )
         })
@@ -66,8 +66,8 @@ class App extends Component {
   }
 
   onQueryClick = ()=>{
-    console.log(this.setGenreID(this.state.genreID, this.state.selectedValues[1]))
-    console.log(this.state.genreID)
+    console.log(this.setGenreID(this.state.allGenreIDs, this.state.selectedValues[1]))
+    console.log(this.state.allGenreIDs)
   }
 
 
