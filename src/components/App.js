@@ -2,15 +2,12 @@ import React, {Component} from 'react';
 import Question from './question/Question';
 import RadioGroup from './ui/RadioGroup';
 import SubmitButton from './ui/Button/SubmitButton';
-import axios from 'axios';
+import {connect} from 'react-redux';
 import './App.css';
+import {selectValue} from '../actions/selectValue';
+import { fetchGenre } from '../actions/getGenres';
 
 class App extends Component {
-  state = {
-    selectedValues : {},
-    allGenreIDs : {}
-  }
-
   questions = {
     "Pick one " : ["Movies","Series"],
     "Preffered genre " : ["Action","Animation","Adventure","Comedy","Drama","Fantasy","Horror","Music","Romance","Thriller"],
@@ -20,7 +17,16 @@ class App extends Component {
   BaseURL = null
 
   componentDidMount(){
-    this.getGenreID();
+    this.props.dispatch(fetchGenre())
+  }
+
+  componentDidUpdate(prevProps){
+      if(this.props !== prevProps.props){
+        console.log(this.props.selectedValues,this.props);
+      }
+      else{
+        console.log("No")
+      }
   }
   
   
@@ -40,34 +46,17 @@ class App extends Component {
   
 
   setValues = (question, answer) =>{
-    this.setState(prevState =>
-       ({selectedValues : {...prevState.selectedValues, [question] : answer}}), 
-       () => console.log(this.state.selectedValues)
-    )
-      
+    this.props.dispatch(selectValue(question,answer))
   }
 
-
-  getGenreID = ()=>{
-      axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API}`)
-      .then((response)=>{
-        response.data.genres.map((genre,index)=>{
-          return(
-              this.setState(prevState=>
-                ({allGenreIDs : {...prevState.allGenreIDs, [genre.id] : genre.name}})
-              )
-          )
-        })
-      })
-  }
 
   setGenreID = (genres,selectedGenre)=>{
       return Object.keys(genres).find(key => genres[key]===selectedGenre)
   }
 
   onQueryClick = ()=>{
-    console.log(this.setGenreID(this.state.allGenreIDs, this.state.selectedValues[1]))
-    console.log(this.state.allGenreIDs)
+    console.log(this.setGenreID(this.props.allGenreIDs, this.props.selectedValues[1]))
+    console.log(this.props.allGenreIDs)
   }
 
 
@@ -90,5 +79,11 @@ class App extends Component {
     );
   }
 }
+function mapStateToProps(state){
+  return {
+    selectedValues : state.selectedValues,
+    allGenreIDs : state.allGenreIDs
+  };
+}
 
-export default App;
+export default connect(mapStateToProps)(App);

@@ -4,7 +4,7 @@ import './SubmitButton.css'
 function SubmitButton(props){
     return(
         <div>
-            <button 
+            <button
                 className = 'SubmitButton'  
                 type='button'
                 onClick={props.clicked}

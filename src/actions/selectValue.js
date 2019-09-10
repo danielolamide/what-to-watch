@@ -1,4 +1,4 @@
-import { SELECT_VALUE } from '../constants/actionTypes'
+import { SELECT_VALUE} from '../constants/actionTypes'
 
 export const selectValue = (question,answer)=>{
    return{
@@ -7,3 +7,4 @@ export const selectValue = (question,answer)=>{
         answer
    }
 }
+
