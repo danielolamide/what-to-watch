@@ -1,8 +1,10 @@
 .SubmitButton{
-    font-size : 120%;
+    font-size : 100%;
     padding : 10% 30%; 
     background-color: dodgerblue;
     color : white;
     border-radius: 40px;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif
     
 }

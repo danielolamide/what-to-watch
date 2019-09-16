@@ -1,58 +1,14 @@
 import React, {Component} from 'react';
-import Question from './question/Question';
-import RadioGroup from './ui/RadioGroup';
-import SubmitButton from './ui/Button/SubmitButton';
-import {connect} from 'react-redux';
-import './App.css';
-import {selectValue} from '../actions/selectValue';
-import { fetchGenre } from '../actions/getGenres';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {Provider} from 'react-redux'
+import store from '../store/index'
+import Home from '../pages/Home';
+import Results from '../pages/Results';
 
 class App extends Component {
-  questions = {
-    "Pick one " : ["Movies","Series"],
-    "Preffered genre " : ["Action","Animation","Adventure","Comedy","Drama","Fantasy","Horror","Music","Romance","Thriller"],
-    "Rating" : ["1-5","6-10"]
-  }
-
-  BaseURL = null
-
-  componentDidMount(){
-    this.props.dispatch(fetchGenre())
-  }
-
-  componentDidUpdate(prevProps){
-      if(this.props !== prevProps.props){
-        console.log(this.props.selectedValues,this.props);
-      }
-      else{
-        console.log("No")
-      }
-  }
-  
-  
-  mapQuestions = (questions)=>{
-    return(
-      Object.keys(questions).map((key,index)=>{
-        return(
-          <Question key={index} quest={key} >
-            <RadioGroup questionNo={index}
-            choices={questions[key]}
-            onSelectAnswer={this.setValues}/>
-          </Question>
-        )
-      })
-    );
-  }
-  
-
-  setValues = (question, answer) =>{
-    this.props.dispatch(selectValue(question,answer))
-  }
-
-
-  setGenreID = (genres,selectedGenre)=>{
-      return Object.keys(genres).find(key => genres[key]===selectedGenre)
-  }
+  // setGenreID = (genres,selectedGenre)=>{
+  //     return Object.keys(genres).find(key => genres[key]===selectedGenre)
+  // }
 
   onQueryClick = ()=>{
     console.log(this.setGenreID(this.props.allGenreIDs, this.props.selectedValues[1]))
@@ -62,28 +18,15 @@ class App extends Component {
 
   render(){
     return (
-        <div className='App'>
-          <div className='App-Header'>
-            <h1>What-To-Watch</h1>
-          </div>
-          <div className='App-Tag'>
-              <span>Saving your time since 2019 <span role='img' aria-label='thumbs-up'>👍🏿</span></span>
-          </div>
-          <div className='App-Body'> 
-              {this.mapQuestions(this.questions)}
-              <div className='App-Search-Btn'>
-                <SubmitButton clicked={this.onQueryClick.bind(this)}/>
-              </div>
-          </div>
-        </div>
-    );
+      <Provider store={store}>
+        <Router>
+          <Route exact path ='/' component={Home}/>
+          <Route path='/results' component={Results}/>
+        </Router>
+      </Provider>
+    )
   }
 }
-function mapStateToProps(state){
-  return {
-    selectedValues : state.selectedValues,
-    allGenreIDs : state.allGenreIDs
-  };
-}
 
-export default connect(mapStateToProps)(App);
+
+export default App;

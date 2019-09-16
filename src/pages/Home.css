@@ -1,0 +1,21 @@
+.Home{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .Home-Header{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+  }
+  .Home-Tag{
+    font-family: 'Old Standard TT', serif;
+  }
+  .Home-Body{
+    display: flex;
+    flex-flow: column wrap;
+  }
+  .Home-Search-Btn{
+    align-self: center;
+    padding : 5% 0 ;
+  }
